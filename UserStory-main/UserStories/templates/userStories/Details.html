@@ -1,0 +1,390 @@
+{% extends "base.html" %}
+{% block title %}Details{% endblock %}
+{% block content %}
+<div class="mb-5">
+    <h1 class="m-auto">User Story Details</h1>
+    
+</div>
+<div class="mb-5">
+    <div class="row ">
+        <h4>Creator</h4>
+        
+    </div>
+    {{userStory.userStoriesVersion.User.username}}
+</div>
+<form id="form" method="post" autocomplete="off">
+    {% csrf_token %}
+<div class="col-4">
+    <div class="form-group">
+        <label for="exampleInputEmail1" style="display: block;width: 100%;">PlatForm</label>
+        <select id="example-getting-started4" name="platforms" style="width: 100%;"
+            class="form-control form-select platform" multiple="multiple">
+            {% for p in platforms %}
+            {% if p.id in platformIds %}
+            <option value="{{p.id}}" selected>{{p.name}},</option>
+            {% else %}
+            <option value="{{p.id}}">{{p.name}},</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+        
+    </div>
+</div>
+<div class=" testimonial-group table-responsive p-0 mb-5" style="height: 30%" id="UserStory">
+    <h2>User Story</h2>
+    <table class="table align-items-center mb-0">
+        <thead>
+            <tr class="ReadState" id="userStoryDetailsHeader">
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Persona</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Epic
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">I Want TO</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">So That</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User Acceptance Criteria
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">RAIDS</th>
+                {% for e in userStory.Estimates.all %}
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{e.Platform.name}}</th>
+                {% endfor %}
+            </tr>
+            <tr class="EditState d-none" >
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Persona</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Epic
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">I Want TO</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">So That</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User Acceptance Criteria</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">RAIDS</th>
+                {% for e in userStory.Estimates.all %}
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{e.Platform.name}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="{{userStory.id}}" class="ReadState userStoryDetailsBody">
+                    <td class="">
+                        <div class="form-group pl-5" style="height: 100%;min-width: 15rem;">
+                            
+                            <div style="width: 100%;" class="row PersonDiv">
+                                {% for Persona in userStory.Persona.all %}
+                                <div class="form-group row">
+                                    <div class="col-12 m-0 p-0">
+                                        <textarea type="text" id="myInput" list="personList" style="display: inline;"
+                                            class="form-control updatePersona bg-gray h-4rem" data-id="{{Persona.id}}" id="myInput" aria-describedby="emailHelp"
+                                            placeholder="Persona">{{Persona.Name}}</textarea>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                
+                            </div>
+                            <p class="m-auto AddPersona details" style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                                Add Another<i class="ml-1 text-danger fa fa-plus AddPersona"></i></p>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="form-group m-0" style="margin: 0;min-width: 15rem;">
+                            <textarea type="text" id="epicInput" data-name="epic" list="encodings"  class="form-control updateUserStory input bg-gray h-4rem"
+                                id="epicInput" aria-describedby="emailHelp"
+                                placeholder="Epic">{{userStory.Epic.versionName}}</textarea>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="form-group" style="min-width: 15rem;">
+                            <textarea type="text" id="IWantTO" data-name="iWantTo" class="form-control bg-gray updateUserStory h-4rem" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="IWantTO">{{userStory.iWantTO}}</textarea>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="form-group" style="min-width: 15rem;">
+                            <textarea type="text" id="SoThat" data-name="soThat"  class="form-control bg-gray updateUserStory h-4rem" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="SoThat">{{userStory.soThat}}</textarea>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="form-group pl-5 twiceWidth" style="height: 100%;min-width: 15rem;">
+                            <div style="width: 100%;" class="row DKDiv twiceWidth">
+                                {% for DevelopmentTask in userStory.DevelopmentTask.all %}
+                                <div class="form-group row twiceWidth">
+                                    <div class="col-12 m-0 p-0 twiceWidth">
+                                        <textarea type="text" id="DevTasks" data-id="{{DevelopmentTask.id}}"
+                                            class="form-control updateDevTask col-12 bg-gray h-4rem" name="Dev" id="exampleInputEmail1"
+                                            aria-describedby="emailHelp"
+                                            placeholder="User Acceptance Criteria">{{DevelopmentTask.description}}</textarea>
+                                    </div>
+                    
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <p class="m-auto AddDev details"
+                                style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                                Add Another<i class="ml-1 text-danger fa fa-plus"></i></p>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="form-group pl-5 twiceWidth" style="height: 100%;min-width: 15rem;">
+                            <div style="width: 100%;" class="row RAIDSDiv twiceWidth">
+                                {% for RAIDS in userStory.RAIDS.all %}
+                                <div class="form-group row twiceWidth">
+                                    <div class="col-12 m-0 p-0 twiceWidth">
+                                        <textarea type="text" id="R.A.I.DS" data-id="{{RAIDS.id}}"
+                                            class="form-control updateRaids col-12 bg-gray h-4rem" name="RAIDS" id="exampleInputEmail1"
+                                            aria-describedby="emailHelp" placeholder="R.A.I.DS">{{RAIDS.description}}</textarea>
+                                    </div>
+                    
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <p class="m-auto AddRaids details"
+                                style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                                Add Another<i class="ml-1 text-danger fa fa-plus"></i></p>
+                        </div>
+                    </td>
+                    
+                        {% for e in userStory.Estimates.all %}
+                        <td class="">
+                        <div class=" form-group row lessWidth text-center" style="height: 100%;">
+                            <input type="number" id="{{e.Platform.id}}" class="form-control estimate updateEstimate bg-gray m-auto col-8" value="{{e.noOfHours}}"
+                                required="" data-id="{{e.id}}" placeholder="{{e.Platform.name}}" aria-describedby="emailHelp">
+                        </div>
+                        </td>
+                        {% endfor %}
+                    
+            </tr>
+            <tr id="" class="EditState d-none userStoryDetailsBody"> 
+                <td class="">
+                    <div class="form-group pl-5" style="height: 100%;min-width: 15rem;">
+                        <div style="width: 100%;" class="row PersonDiv">
+                            {% for Persona in userStory.Persona.all %}
+                            <div class="form-group row">
+                                <div class="col-10 m-0 p-0">
+                                    <textarea type="text" id="myInput" name="Persona" list="personList" style="display: inline;"
+                                        class="form-control h-4rem" id="myInput" aria-describedby="emailHelp"
+                                        placeholder="Persona">{{Persona.Name}}</textarea>
+                                </div>
+                                <i class="col-2 m-auto text-danger fa fa-times" onclick="remove(this)"
+                                    style="display: flex;justify-content: center;align-items: center;cursor: pointer;"> </i>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div style="width:100% ;" class="row">
+                            <div class="form-group row">
+                                <div class="col-12 m-0 p-0">
+                                    <textarea type="text" id="myInput" name="Persona" list="personList" style="display: inline;"
+                                        class="form-control Persona h-4rem" id="myInput" aria-describedby="emailHelp"
+                                        placeholder="Persona"></textarea>
+                                </div>
+                                <p class="m-auto AddPersona"
+                                    style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                                    Add Another<i class="ml-1 text-danger fa fa-plus AddPersona"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="form-group m-0" style="margin: 0;min-width: 15rem;">
+                        <textarea type="text" id="epicInput" list="encodings" name="Epic" class="form-control input h-4rem" id="epicInput"
+                            aria-describedby="emailHelp" placeholder="Epic">{{userStory.Epic.versionName}}</textarea>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="form-group" style="min-width: 15rem;">
+                        <textarea type="text" id="IWantTO" name="IWantTO" class="form-control h-4rem" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="IWantTO">{{userStory.iWantTO}}</textarea>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="form-group" style="min-width: 15rem;">
+                        <textarea type="text" id="SoThat" name="SoThat" class="form-control h-4rem" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="SoThat">{{userStory.soThat}}</textarea>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="form-group pl-5 twiceWidth" style="height: 100%;min-width: 15rem;">
+                        <div style="width: 100%;" class="row DKDiv twiceWidth">
+                            {% for DevelopmentTask in userStory.DevelopmentTask.all %}
+                            <div class="form-group row twiceWidth">
+                                <div class="col-10 m-0 p-0 twiceWidth">
+                                    <textarea type="text" id="DevTasks" class="form-control h-4rem" name="Dev" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                        placeholder="Dev Tasks">{{DevelopmentTask.description}}</textarea>
+                                </div>
+                                <i class="col-2 m-auto text-danger fa fa-times" onclick="remove(this)"
+                                    style="display: flex;justify-content: center;align-items: center;cursor: pointer;"> </i>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div style="width:100% ;" class="row twiceWidth">
+                            <div class="form-group row twiceWidth">
+                                <div class="col-12 m-0 p-0 twiceWidth">
+                                    <textarea type="text" id="DevTasks" class="form-control Dev col-12 h-4rem" name="Dev" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp" placeholder="User Acceptance Criteria"></textarea>
+                                    <p class="m-auto AddDev" style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                                </div>
+                                <p class="m-auto AddDev" style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                                    Add Another<i class="ml-1 text-danger fa fa-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="form-group pl-5 twiceWidth" style="height: 100%;min-width: 15rem;">
+                        <div style="width: 100%;" class="row RAIDSDiv twiceWidth">
+                            {% for RAIDS in userStory.RAIDS.all %}
+                            <div class="form-group row twiceWidth">
+                                <div class="col-10 m-0 p-0 twiceWidth">
+                                    <textarea type="text" id="R.A.I.DS" class="form-control h-4rem" name="RAIDS" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp" placeholder="R.A.I.DS">{{RAIDS.description}}</textarea>
+                                </div>
+                                <i class="col-2 m-auto text-danger fa fa-times" onclick="remove(this)"
+                                    style="display: flex;justify-content: center;align-items: center;cursor: pointer;"></i>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div style="width:100% ;" class="row twiceWidth">
+                            <div class="form-group row twiceWidth">
+                                <div class="col-12 m-0 p-0 twiceWidth">
+                                    <textarea type="text" id="R.A.I.DS" class="form-control Raids col-12 h-4rem" name="RAIDS" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp" placeholder="R.A.I.DS"></textarea>
+                                    <p class="m-auto AddDev"
+                                        style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                                </div>
+                                <p class="m-auto AddRaids" style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                                    Add Another<i class="ml-1 text-danger fa fa-plus"></i></p>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                {% for e in userStory.Estimates.all %}
+                <td class="">
+                <div class=" form-group row lessWidth text-center" style="height: 100%;">
+                    <input type="number" id="{{e.Platform.id}}" class="form-control estimate m-auto col-10" value="{{e.noOfHours}}" required=""
+                        name="estimate[]" placeholder="{{e.Platform.name}}" aria-describedby="emailHelp">
+                </div>
+                </td>
+                {% endfor %}
+                
+                
+            </tr>
+        </tbody>
+
+
+    </table>
+</div>
+</form>
+<div class="mb-5">
+    <h4>User Story Version</h4>
+    <table class="table align-items-center mb-0">
+        <thead>
+            <tr>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">name</th>
+    
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">description
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% if userStory.userStoriesVersion %}
+            <tr>
+                <td class="align-middle text-center rem-15">
+                    <a class="d-block" href="{% url 'userStoryVersionDetails' userStory.userStoriesVersion.id %}">
+                    <span class="text-secondary text-xs font-weight-bold">{{userStory.userStoriesVersion.name}}</span>
+                    </a>
+                </td>
+                <td class="align-middle text-center rem-15">
+                    <a class="d-block" href="{% url 'userStoryVersionDetails' userStory.userStoriesVersion.id %}">
+                    <span
+                        class="text-secondary text-xs font-weight-bold">{{userStory.userStoriesVersion.description}}</span>
+                    </a>
+                </td>
+                <td class="align-middle text-center rem-15">
+                    <a class="d-block" href="{% url 'userStoryVersionDetails' userStory.userStoriesVersion.id %}">
+                    <span
+                        class="text-secondary text-xs font-weight-bold">{{userStory.userStoriesVersion.Project.name}}</span>
+                    </a>
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    
+    
+    </table>
+</div>
+<div class="mb-5">
+    <h4>Project</h4>
+    <table class="table align-items-center mb-0">
+        <thead>
+            <tr>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project Name
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Business</th>
+    
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">no. of Versions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if userStory.userStoriesVersion.Project %}
+            <tr>
+                <td class="align-middle text-center rem-15">
+                    <a class="d-block" href="{% url 'projectDetails' userStory.userStoriesVersion.Project.id %}">
+                    <span class="text-secondary text-xs font-weight-bold">{{userStory.userStoriesVersion.Project.name}}</span>
+                    </a>
+                </td>
+                <td class="align-middle text-center rem-15">
+                    <a class="d-block" href="{% url 'projectDetails' userStory.userStoriesVersion.Project.id %}">
+                    <span class="text-secondary text-xs font-weight-bold">{{userStory.userStoriesVersion.Project.Business.name}}</span>
+                    </a>
+                </td>
+                <td class="align-middle text-center rem-15">
+                    <a class="d-block" href="{% url 'projectDetails' userStory.userStoriesVersion.Project.id %}">
+                    <span class="text-secondary text-xs font-weight-bold">{{userStory.userStoriesVersion.Project.project}}</span>
+                    </a>
+                </td>
+                
+            </tr>
+            {% endif %}
+        </tbody>
+    
+    
+    </table>
+</div>
+<div class="mb-5">
+    <h4>Business</h4>
+    <table class="table align-items-center mb-0">
+        <thead>
+            <tr>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Business</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Industry</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Contact
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if userStory.userStoriesVersion.Project %}
+            
+            <tr>
+                <td class="align-middle text-center rem-15">
+                    <a class="d-block" href="{% url 'BusinessDetails' userStory.userStoriesVersion.Project.Business.id %}">
+                    <span class="text-secondary text-xs font-weight-bold">{{userStory.userStoriesVersion.Project.Business.name}}</span>
+                    </a>
+                </td>
+                <td class="align-middle text-center rem-15">
+                    <a class="d-block" href="{% url 'BusinessDetails' userStory.userStoriesVersion.Project.Business.id %}">
+                    <span class="text-secondary text-xs font-weight-bold">{{userStory.userStoriesVersion.Project.Business.get_categories}}</span>
+                    </a>
+                </td>
+                <td class="align-middle text-center rem-15">
+                    <a class="d-block" href="{% url 'BusinessDetails' userStory.userStoriesVersion.Project.Business.id %}">
+                    <span class="text-secondary text-xs font-weight-bold">{{userStory.userStoriesVersion.Project.Business.get_users}}</span>
+                    </a>
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    
+    
+    </table>
+</div>
+{% endblock %}

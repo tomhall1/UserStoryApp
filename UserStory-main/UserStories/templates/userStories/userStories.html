@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block personaObjects %}{{personaObjects}}{% endblock %}
+{% block epicObjects %}{{epicObjects}}{% endblock %}
+{% block iWantTOObjects %}{{iWantTOObjects}}{% endblock %}
+{% block soThatObjects %}{{soThatObjects}}{% endblock %}
+{% block devTasksObjects %}{{devTasksObjects}}{% endblock %}
+{% block RAIDSObjects %}{{RAIDSObjects}}{% endblock %}
+{% block content %}
+<div>
+    <h1 class="m-auto">User Stories</h1>
+</div>
+<a href="{% url 'addUserStory' %}" class="btn btn-success" aria-hidden="true">
+    Create New User Story
+</a>
+<div class="testimonial-group table-responsive p-0">
+    <div style="max-width: 0rem;">
+    <table  class="table align-items-center mb-0">
+        <thead>
+            <tr>
+                <th></th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Persona</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Epic
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">iWantTO</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">soThat</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User Acceptance Criteria</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">RAIDS</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Group</th>
+                <th class="text-secondary opacity-7"></th>
+            </tr>
+        </thead>
+
+        <thead>
+            <tr>
+                <th></th>
+                <form id="form" method="get" name="filter" autocomplete="off">
+                    <th class="minWidth text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        {% for persona in form.persona %}
+                        <div class="row no-gutters mb-1 ">
+                            <input type="text" name="Persona" class="form-control col-9" value="{{persona}}">
+                            <i class="col-3 btn btn-success fa fa-minus Removefilter"
+                                style="display: flex;justify-content: center;align-items: center;"></i>
+                        </div>
+                        {% endfor %}
+                        <div >
+                            <input type="text" name="Persona" class="form-control filter" id="personaInputfilter" 
+                                id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Description">
+                        </div>
+                    </th>
+                    <th style="min-width: 8rem;" class="minWidth text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        {% for e in form.Epic %}
+                        <div class="row no-gutters mb-1 ">
+                            <input type="text" name="Epic" class="form-control col-9" value="{{e}}">
+                            <i class="col-3 btn btn-success fa fa-minus Removefilter"
+                                style="display: flex;justify-content: center;align-items: center;"></i>
+                        </div>
+                        {% endfor %}
+                        <div>
+                        <input type="text" name="Epic" class="form-control filter p-1" id="epicInputfilter" aria-describedby="emailHelp"
+                            placeholder="Description">
+                        </div>
+                    </th>
+                <th class="minWidth text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    {% for e in form.IWantTO %}
+                    <div class="row no-gutters mb-1 ">
+                        <input type="text" name="IWantTO" class="form-control col-9" value="{{e}}">
+                        <i class="col-3 btn btn-success fa fa-minus Removefilter"
+                            style="display: flex;justify-content: center;align-items: center;"></i>
+                    </div>
+                    {% endfor %}
+                   <div>
+                    <input type="text" name="IWantTO" class="form-control filter" id="iWantToInput" aria-describedby="emailHelp"
+                        placeholder="Description">
+                   </div>
+                </th>
+                <th class="minWidth text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    {% for e in form.SoThat %}
+                    <div class="row no-gutters mb-1 ">
+                        <input type="text" name="SoThat" class="form-control col-9" value="{{e}}">
+                        <i class="col-3 btn btn-success fa fa-minus Removefilter"
+                            style="display: flex;justify-content: center;align-items: center;"></i>
+                    </div>
+                    {% endfor %}
+                    <div>
+                        <input type="text" name="SoThat" class="form-control filter" id="soThatInput" aria-describedby="emailHelp"
+                            placeholder="Description">
+                    </div>
+                </th>
+                <th class="minWidth text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    {% for devTask in form.DevTask %}
+                    <div class="row no-gutters mb-1 ">
+                        <input type="text" name="DevTask" class="form-control col-9" value="{{devTask}}">
+                        <i class="col-3 btn btn-success fa fa-minus Removefilter"
+                            style="display: flex;justify-content: center;align-items: center;"></i>
+                    </div>
+                    {% endfor %}
+                    <div>
+                        <input type="text" name="DevTask" class="form-control filter" id="devTaskInput"
+                            aria-describedby="emailHelp" placeholder="Description">
+                    </div>
+                </th>
+                <th class="minWidth text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    {% for raids in form.RAIDS %}
+                    <div class="row no-gutters mb-1 ">
+                        <input type="text" name="RAIDS" class="form-control col-9" value="{{raids}}">
+                        <i class="col-3 btn btn-success fa fa-minus Removefilter"
+                            style="display: flex;justify-content: center;align-items: center;"></i>
+                    </div>
+                    {% endfor %}
+                    <div>
+                        <input type="text" name="RAIDS" class="form-control filter" id="RAIDSInput"
+                            aria-describedby="emailHelp" placeholder="Description">
+                    </div>    
+                </th>
+                <th class="minWidth text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    {% for indicator in form.indicator %}
+                    <div class="row no-gutters mb-1 ">
+                        <input type="text" name="indicator" class="form-control col-9" value="{{indicator}}">
+                        <i class="col-3 btn btn-success fa fa-minus Removefilter"
+                            style="display: flex;justify-content: center;align-items: center;"></i>
+                    </div>
+                    {% endfor %}
+                    <div>
+                        <input type="text" name="Indicator"  class="form-control groupField filter"
+                            id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Description"></th>
+                    </div>
+                
+                </form>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in users %}
+                <tr>
+                <td class="align-middle text-center">
+                    <a href="{% url 'userStoryDetails' user.id %}" class="btn btn-success" aria-hidden="true">
+                        Details
+                    </a>
+                </td>
+                <td class="align-middle text-center">
+                    <div>
+                    {% if user.get_UsGroup %}
+                    <span class="text-secondary text-xs font-weight-bold mr-1 groupName" data-toggle="tooltip"
+                        title={{user.get_UsGroup}}>
+                        <i class="fa fa-check-circle text-success group" style="cursor: pointer;"></i>
+                    </span>
+                    <span class="text-secondary text-xs font-weight-bold">{{user.get_Persona}}</span>
+                    {% else %}
+                    <span class="text-secondary text-xs font-weight-bold ml-4">{{user.get_Persona}}</span>
+                    {% endif %}
+                    </div>
+                </td>
+                <td class="align-middle text-center">
+                    <div>
+                    {{user.Epic.versionName}}
+                    </div>
+                </td>
+                <td class="align-middle text-center">
+                    <div>
+                    <span class="text-secondary text-xs font-weight-bold">{{user.iWantTO}}</span>
+                    </div>
+                </td>
+                <td class="align-middle text-center">
+                    <div>
+                    <span class="text-secondary text-xs font-weight-bold">{{user.soThat}}</span>
+                    </div>
+                </td>
+                <td class="align-middle text-center">
+                    <div class="Bigger">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.get_DevTask}}</span>
+                    </div>
+                </td>
+                <td class="align-middle text-center">
+                    <div class="Bigger">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.get_RAIDS}}</span>
+                    </div>
+                </td>
+                
+                <!-- <td class="align-middle text-center">
+                    <button class="btn btn-success RemoveUserStory" id="{{user.id}}" aria-hidden="true">
+                        Remove
+                    </button>
+                </td> -->
+            </tr>
+            {% endfor %}
+        </tbody>
+
+
+    </table>
+</div>
+</div>
+{% endblock %}

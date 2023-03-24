@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Update User{% endblock %}
+{% block content %}
+<div>
+    <h1 class="m-auto">{{form.username.value}}’s Details</h1>
+</div>
+<div class="row">
+    <form class="col-3" method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" class="btn btn-success" value="Update User"></p>
+    </form>
+    <div class="col-4 mt-2">
+        <div>
+            <strong>Businesses:</strong>
+            <div class="">
+                {% for b in business %}
+                <a class="text-success" href="{% url 'BusinessDetails' b.id %}"><strong class="d-block">{{b.name}}</strong></a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="mt-5">
+            <strong>Projects:</strong>
+            <div >
+                {% for p in projects %}
+                <a class="text-success" href="{% url 'projectDetails' p.id %}"><strong class="d-block">{{p.name}}</strong></a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

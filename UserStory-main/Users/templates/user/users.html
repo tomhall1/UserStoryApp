@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block projectObject %}{{projectObject}}{% endblock %}
+{% block businessObject %}{{businessObject}}{% endblock %}
+{% block nameObject %}{{nameObject}}{% endblock %}
+{% block content %}
+<div>
+    <h1 class="m-auto">Users</h1>
+</div>
+<a href="{% url 'addUsers' %}" class="btn btn-success" aria-hidden="true">Add New User</i>
+</a>
+<div class="table-responsive p-0">
+    <table class="table align-items-center mb-0">
+        <thead>
+            <tr>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Role</th>
+
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Projects
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Business</th>
+                <th class="text-secondary opacity-7"></th>
+            </tr>
+        </thead>
+
+        <thead>
+            <tr>
+                <form id="form" method="get" autocomplete="off">
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        
+                        {{filter.form.username}}
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        <input type="text" name="Role" class="form-control filter" value="{{Role}}" id="roleInput"
+                            aria-describedby="emailHelp" placeholder="Role">
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        <input type="text" name="Project" class="form-control filter" value="{{Project}}" id="projectInput"
+                            aria-describedby="emailHelp" placeholder="Project">
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        <input type="text" name="Business" class="form-control filter" value="{{Business}}" id="businessInput"
+                            aria-describedby="emailHelp" placeholder="Business">
+                    </th>
+                    <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        <input type="text" name="Epic" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                            placeholder="Description">
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><input
+                            type="text" name="Persona" class="form-control" value="{{form.persona}}" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="Description"></th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><input
+                            type="text" name="RAIDS" value="{{form.RAIDS}}" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="Description"></th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><input
+                            type="text" name="DevTask" value="{{form.DevTask}}" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="Description"></th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><input
+                            type="text" name="Indicator" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="Description"></th> -->
+        
+                </form>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for user in users %}
+                <tr>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.username}}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.Role}}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.get_projects}}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.get_businesses}}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <a href="{% url 'userDetails' user.id %}" class="btn btn-success" aria-hidden="true">
+                        Details
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+
+    </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+<div>
+    <h1 class="m-auto">Add Business</h1>
+</div>
+<form method="post">
+    {% csrf_token %}
+    <div class="row w-100 mb-4">
+        <div class="col-5">
+            {{ form.as_p }}
+            <div class="form-group">
+                <label for="exampleInputEmail1" style="display: block;width: 100%;">BusinessIndustries</label>
+                    <select id="example-getting-started1" name="businessIndustry" style="width: 100%;" class="form-control form-select industry"
+                        multiple="multiple">
+                        {% for p in businessIndustries %}
+                        <option class="projectOption" value="{{p.id}}">{{p.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="button" class="col-2 btn btn-success fa fa-plus" data-toggle="modal" data-target="#modalLoginForm">
+                    </button>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1" style="display: block;width: 100%;">Internal_User</label>
+                <select id="example-getting-started" name="Internal_User" style="width: 100%;" class="form-control form-select platform"
+                    multiple="multiple">
+                    {% for p in internal_User %}
+                    <option class="projectOption" value="{{p.id}}">{{p.username}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1" style="display: block;width: 100%;">Customer</label>
+                <select id="example-getting-started2" name="Customer" style="width: 100%;" class="form-control form-select platform"
+                    multiple="multiple">
+                    {% for p in customer %}
+                    <option class="projectOption" value="{{p.id}}">{{p.username}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-5">
+            {{form2.as_p}}
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success" value="submit">Create</button>
+</form>
+    <div>
+        <form method="get">
+            {% csrf_token %}
+        <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Business Industry</h4>
+                        <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div class="form-group ">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input type="text" name="Name" class="form-control" id="industry"
+                                aria-describedby="emailHelp" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button  name="businessIndustry" aria-hidden="true" data-dismiss="modal" aria-label="Close" type="button" value="submit" class="btn btn-success addIndustry">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- <div class="text-center">
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
+                    Modal Login Form</a>
+            </div> -->
+            </form>
+    </div>
+{% endblock %}

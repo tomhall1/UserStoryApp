@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+<div>
+    <h1 class="m-auto">Add UserStory</h1>
+</div>
+<form method="post" style="height: 100%;width: 100%;">
+    {% csrf_token %}
+    <div class="row" style="width:100% ;">
+        <div class="col-4">
+            <div class="form-group">
+                <label for="exampleInputEmail1" style="display: block;width: 100%;">PlatForm</label>
+                <select id="example-getting-started4" name="platforms" style="width: 100%;"
+                    class="form-control form-select platform" multiple="multiple">
+                    {% for p in platforms %}
+                    {% if p.id in platformIds %}
+                    <option value="{{p.id}}" selected>{{p.name}}</option>
+                    {% else %}
+                    <option value="{{p.id}}">{{p.name}},</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="button" class="col-2 btn btn-success fa fa-plus " data-toggle="modal" data-target="#modalPlatformForm">
+                </button>
+                <!-- <select class="form-control form-select" required name="platform" style="display:block ;"
+                                                aria-label="Default select example">
+                                                
+                                            </select> -->
+            </div>
+        </div>
+    
+    </div>
+    <div class=" testimonial-group table-responsive p-0 mb-5" id="UserStory">
+    <table id="mainTable" class="table align-items-center mb-0">
+        <thead>
+            <tr class="ReadState" id="userStoryDetailsHeader1">
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Persona</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Epic
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">I Want TO</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">So That</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User Acceptance
+                    Criteria
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">RAIDS</th>
+                
+            </tr>
+            
+        </thead>
+        <tbody>
+            <tr class="ReadState userStoryDetailsBody">
+                <td class="">
+                    <div class="form-group pl-5" style="height: 100%;min-width: 15rem;">
+    
+                        <div style="width: 100%;" class="row PersonDiv">
+                            <div class="form-group row">
+                                <div class="col-12 m-0 p-0">
+                                    <textarea type="text" id="myInput" name="Persona" list="personList" style="display: inline;"
+                                        class="form-control relatedUserStory currentInput peronsaInputDetails bg-gray h-4rem" 
+                                        id="myInput" aria-describedby="emailHelp"
+                                        placeholder="Persona"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="m-auto AddPersona"
+                            style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                            Add Another<i class="ml-1 text-danger fa fa-plus AddPersona"></i></p>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="form-group m-0" style="margin: 0;min-width: 15rem;">
+                        <textarea type="text" id="epicInput" name="Epic" data-name="epic" list="encodings"
+                            class="form-control relatedUserStory epicInputDetails currentInput input bg-gray h-4rem" id="epicInput"
+                            aria-describedby="emailHelp" placeholder="Epic"></textarea>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="form-group" style="min-width: 15rem;">
+                        <textarea type="text" id="IWantTO" name="IWantTO" data-name="iWantTo"
+                            class="form-control bg-gray currentInput h-4rem" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="IWantTO"></textarea>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="form-group" style="min-width: 15rem;">
+                        <textarea type="text" id="SoThat" 
+                            class="form-control bg-gray currentInput h-4rem" name="SoThat" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="SoThat"></textarea>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="form-group pl-5 twiceWidth" style="height: 100%;">
+                        <div style="width: 100%;" class="row DKDiv twiceWidth">
+                            <div class="form-group row twiceWidth">
+                                <div class="col-12 m-0 p-0">
+                                    <textarea type="text" id="DevTasks" name="Dev" onkeydown="newDevTaskByKey(event, this)"
+                                        class="form-control currentInput bg-gray h-4rem" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp"
+                                        placeholder="Dev Tasks"></textarea>
+                                </div>
+    
+                            </div>
+                        </div>
+                        <p class="m-auto AddDev"
+                            style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                            Add Another<i class="ml-1 text-danger fa fa-plus"></i></p>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="form-group pl-5 twiceWidth" style="height: 100%;min-width: 15rem;">
+                        <div style="width: 100%;" class="row RAIDSDiv twiceWidth">
+                            <div class="form-group row twiceWidth">
+                                <div class="col-12 m-0 p-0">
+                                    <textarea type="text" name="RAIDS" onkeydown="newRaidsByKey(event, this)" id="R.A.I.DS"
+                                        class="form-control currentInput bg-gray h-4rem" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp" placeholder="R.A.I.DS"></textarea>
+                                </div>
+    
+                            </div>
+                        </div>
+                        <p class="m-auto AddRaids details"
+                            style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                            Add Another<i class="ml-1 text-danger fa fa-plus"></i></p>
+                    </div>
+                </td>
+            </tr>
+            
+        </tbody>
+    
+    
+    </table>
+    <div class="p-0 d-none" style="max-height: 15rem !important;width: 100%;overflow-y: auto;overflow-x: hidden;">
+        <div class="spinner-border d-none" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <table class="table align-items-center mb-0">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Persona</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Epic
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">iWantTO</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">soThat</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DevTask</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">RAIDS</th>
+                    <th class="text-secondary opacity-7"></th>
+                </tr>
+            </thead>
+            <tbody class="relatedUserStory">
+    
+            </tbody>
+    
+    
+        </table>
+    </div>
+    </div>
+    <div>
+        <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Add Group</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div class="form-group ">
+                            <label for="exampleInputEmail1">Description</label>
+                            <input type="text" name="US_Group" class="form-control bg-gray" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                placeholder="Description">
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button data-dismiss="modal" aria-label="Close" type="button" class="btn btn-success">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- <div class="text-center">
+            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
+                Modal Login Form</a>
+        </div> -->
+        <div class="row w-100">
+            <div class="col-6 row mb-3">
+            <button type="submit" class="col-3 mr-4 btn btn-success" style="height: 3rem;">Create</button>
+            <button type="button" class="col-6 btn btn-success" style="height: 3rem;" data-toggle="modal" data-target="#modalLoginForm"
+                >add to group</button>
+            </div>
+        <div class="mb-3 col-3">
+            <table class="col-12 table align-items-center mb-5">
+                <thead>
+        
+                    <tr>
+                        <th>
+                            Estimate
+                        </th>
+                        <th>
+                            Total
+                        </th>
+        
+                    </tr>
+                </thead>
+                <tbody class="sumEstimatesTable">
+        
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+    <!-- <div class="form-group">
+        <label for="exampleInputEmail1">US_Group</label>
+        <input type="text" name="US_Group" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            placeholder="US_Group">
+    </div> -->
+    <!-- <div style="width:100% ;" class="row">
+        <div class="form-group col-10">
+            <label for="exampleInputEmail1">Estimates</label>
+            <input type="text" class="form-control Estimates" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Estimates">
+        </div>
+        <div class="col-2 text-center">
+            <button type="button" class="btn btn-success AddEstimates" style="margin-top:2rem ;">add another</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <textarea type="text" name="Estimates" class="form-control mt-2 h-25 EstimatesArea" cols="10"></textarea>
+    </div> -->
+</form>
+
+<div>
+        {% csrf_token %}
+        <div class="modal fade" id="modalPlatformForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Add Platform</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div class="form-group ">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input type="text" name="Name" class="form-control" id="platformName"
+                                aria-describedby="emailHelp" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="submit" data-dismiss="modal" aria-label="Close" id="AddPlatform" value="submit" name="Platform"
+                            class="btn btn-success">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="text-center">
+                        <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
+                            Modal Login Form</a>
+                    </div> -->
+</div>
+
+{% endblock %}

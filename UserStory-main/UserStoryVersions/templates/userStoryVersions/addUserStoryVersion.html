@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block project %}{{project}}{% endblock %}
+{% block personaObjects %}{{personaObjects}}{% endblock %}
+{% block epicObjects %}{{epicObjects}}{% endblock %}
+{% block content %}
+<div>
+    <h1 class="m-auto">Add UserStory Version</h1>
+</div>
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{id}}" />
+    <div class="row" style="width:100% ;">
+        <div class="col-3">
+            <div class="form-group mb-0">
+                <label for="exampleInputEmail1">business</label>
+                <select class="form-control form-select business" required name="business" style="display:block ;"
+                    aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    {% for p in business %}
+                    <option value="{{p.id}}">{{p.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Project</label>
+                <select class="form-control form-select updateProject project" id="0" required name="project" style="display:block ;"
+                    aria-label="Default select example">
+                    <option value="">Open this select menu</option>
+                    {% for p in persona %}
+                    {% if p == userStoryVersion.Project %}
+                    <option class="projectOption" value="{{p.id}}" selected>{{p.name}}</option>
+                    {% else %}
+                    <option class="projectOption" value="{{p.id}}">{{p.name}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Version Name</label>
+                <input type="text" name="VersionName" required value="{{userStoryVersion.name}}" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Version Description</label>
+                <input type="text" name="VersionDescription" required value="{{userStoryVersion.description}}" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Description">
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label for="exampleInputEmail1">User Name</label>
+                <input type="text" name="UserName" disabled value="{{userName}}" class="form-control"
+                    id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1" style="display: block;width: 100%;">PlatForm</label>
+                <select id="example-getting-started3" name="platforms" style="width: 100%;" class="form-control form-select platform" multiple="multiple">
+                    {% for p in platforms %}
+                    {% if p.id in platformIds %}
+                    <option  value="{{p.id}}" selected>{{p.name}},</option>
+                    {% else %}
+                    <option  value="{{p.id}}">{{p.name}},</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="button" class="col-2 btn btn-success fa fa-plus " data-toggle="modal" data-target="#modalLoginForm">
+                </button>
+                <!-- <select class="form-control form-select" required name="platform" style="display:block ;"
+                                            aria-label="Default select example">
+                                            
+                                        </select> -->
+            </div>
+        </div>
+        
+    </div>
+    <div class=" testimonial-group table-responsive mb-5" style="min-width: 100%;" id="UserStory">
+    
+        <table id="mainTable" class="table align-items-center mb-0">
+            <thead>
+                <tr id="userStoryDetailsHeader">
+                    <th></th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Persona</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Epic
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">I Want TO
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">So That</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User
+                        Acceptance Criteria</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">RAIDS</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Priority
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                
+            </tbody>
+    
+    
+        </table>
+        <div class="p-0 d-none" style="max-height: 15rem !important;width: 100%;overflow-y: auto;overflow-x: hidden;">
+            <div class="spinner-border d-none" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Persona</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Epic
+                        </th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">iWantTO</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">soThat</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DevTask</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">RAIDS</th>
+                        <th class="text-secondary opacity-7"></th>
+                    </tr>
+                </thead>
+                <tbody class="relatedUserStory">
+        
+                </tbody>
+        
+        
+            </table>
+        </div>
+    </div>
+
+   <div class="mt-5 row w-100">
+    <div class="col-6 row mb-3">
+        <button type="button" id="addUserStory" style="height: 3rem;" class="col-6 mr-4 btn btn-success">add another
+            UserStory</button>
+    </div>
+    <div class="mb-3 col-6 row">
+    <div class="form-group col-3">
+        <label for="exampleInputEmail1" style="display: block;width: 100%;">Priority</label>
+        <select id="example-getting-started5" style="width: 100%;"
+            class="form-control form-select createSelectPriority" onchange="selectPriority(event, this)" multiple="multiple">
+            
+        </select>
+    </div>
+    <div class="mb-3 col-6">
+        <table class="col-12 table align-items-center mb-5">
+            <thead>
+    
+                <tr>
+                    <th>
+                        Estimate
+                    </th>
+                    <th>
+                        Total
+                    </th>
+    
+                </tr>
+            </thead>
+            <tbody class="sumEstimatesTable">
+    
+            </tbody>
+        </table>
+    </div>
+    </div>
+   </div>
+    
+
+<div>
+    
+        {% csrf_token %}
+        <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Add Platform</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div class="form-group ">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input type="text" name="Name" class="form-control" id="platformName"
+                                aria-describedby="emailHelp" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="submit" data-dismiss="modal" aria-label="Close" id="AddPlatform" value="submit" name="Platform"
+                            class="btn btn-success">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="text-center">
+                        <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
+                            Modal Login Form</a>
+                    </div> -->
+</div>
+<form method="get"></form>
+{% endblock %}

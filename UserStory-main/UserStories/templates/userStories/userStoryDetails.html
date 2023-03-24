@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+<div>
+    <h1 class="m-auto">User Story Edit</h1>
+</div>
+<form method="post" style="height: 100%;width: 100%;">
+    {% csrf_token %}
+    <div class="row" style="width:100% ;">
+        <div class="col-4">
+            <div class="form-group">
+                <label for="exampleInputEmail1" style="display: block;width: 100%;">Platform</label>
+                <select id="example-getting-started4" name="platforms" style="width: 100%;"
+                    class="form-control form-select platform" multiple="multiple">
+                    {% for p in platforms %}
+                    {% if p.id in platformIds %}
+                    <option value="{{p.id}}" selected>{{p.name}},</option>
+                    {% else %}
+                    <option value="{{p.id}}">{{p.name}},</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="button" class="col-2 btn btn-success fa fa-plus " data-toggle="modal" data-target="#modalPlatformForm">
+                </button>
+                <!-- <select class="form-control form-select" required name="platform" style="display:block ;"
+                                                    aria-label="Default select example">
+                                                    
+                                                </select> -->
+            </div>
+        </div>
+    
+    </div>
+    <div class="container testimonial-group" style="overflow-x: hidden;">
+        <div class="row no-gutters text-center flex-nowrap" id="UserStory">
+            <div class="form-group pl-5" style="height: 100%;min-width: 15rem;">
+                <div style="width:100% ;" class="row">
+                    <div class="form-group col-10 mb-0">
+                        <label for="exampleInputEmail1">Persona</label>
+                    </div>
+                </div>
+                <div style="width: 100%;" class="row PersonDiv">
+                    {% for Persona in userStory.Persona.all %}
+                    <div class="form-group row">
+                        <div class="col-10 m-0 p-0">
+                            <textarea type="text" id="myInput" name="Persona" list="personList" style="display: inline;"
+                                class="form-control" id="myInput" aria-describedby="emailHelp"
+                                placeholder="Persona">{{Persona.Name}}</textarea>
+                        </div>
+                        <i class="col-2 m-auto text-danger fa fa-times" onclick="remove(this)"
+                            style="display: flex;justify-content: center;align-items: center;cursor: pointer;"> </i>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div style="width:100% ;" class="row">
+                    <div class="form-group row">
+                        <div class="col-12 m-0 p-0">
+                            <textarea type="text" id="myInput" name="Persona" list="personList" style="display: inline;"
+                                class="form-control Persona" id="myInput" aria-describedby="emailHelp"
+                                placeholder="Persona"></textarea>
+                        </div>
+                        <p class="m-auto AddPersona" style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                        Add Another<i class="ml-1 text-danger fa fa-plus AddPersona"
+                            ></i>
+                    </p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group m-0" style="margin: 0;min-width: 15rem;">
+                <label for="exampleInputEmail1">Epic</label>
+                <textarea type="text" id="epicInput" list="encodings" name="Epic" class="form-control input" id="epicInput"
+                    aria-describedby="emailHelp" placeholder="Epic">{{userStory.Epic.versionName}}</textarea>
+            </div>
+            <div class="form-group" style="min-width: 15rem;">
+                <label for="exampleInputEmail1">IWantTO</label>
+                <textarea type="text" id="IWantTO" name="IWantTO" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="IWantTO">{{userStory.iWantTO}}</textarea>
+            </div>
+            <div class="form-group" style="min-width: 15rem;">
+                <label for="exampleInputEmail1">SoThat</label>
+                <textarea type="text" id="SoThat" name="SoThat" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="SoThat">{{userStory.soThat}}</textarea>
+            </div>
+            <div class="form-group" style="padding-left: 1.8rem;min-width: 30rem;">
+                <div style="width:100% ;" class="row">
+                    <div class="form-group col-10 mb-0">
+                        <label for="exampleInputEmail1">Dev Tasks</label>
+                    </div>
+                </div>
+                <div style="width: 100%;" class="row DKDiv">
+                    {% for DevelopmentTask in userStory.DevelopmentTask.all %}
+                    <div class="w-100 form-group row">
+                        <div class="col-10 m-0 p-0">
+                            <textarea type="text" id="DevTasks" class="form-control" name="Dev" id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
+                                placeholder="Dev Tasks">{{DevelopmentTask.description}}</textarea>
+                        </div>
+                        <i class="col-2 m-auto text-danger fa fa-times" onclick="remove(this)"
+                            style="display: flex;justify-content: center;align-items: center;cursor: pointer;"></i>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div style="width:100% ;" class="row">
+                    <div class="w-100 form-group row">
+                        <textarea type="text" id="DevTasks" class="form-control Dev col-12" name="Dev"
+                            id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Dev Tasks"></textarea>
+                        <p class="m-auto AddDev" style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                            Add Another<i class="ml-1 text-danger fa fa-plus"></i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="min-width: 30rem;">
+                <div style="width:100% ;" class="row">
+                    <div class="form-group col-10 mb-0">
+                        <label for="exampleInputEmail1">R.A.I.DS</label>
+                    </div>
+                </div>
+                <div style="width: 100%;" class="row RAIDSDiv">
+                    {% for RAIDS in userStory.RAIDS.all %}
+                    <div class="w-100 form-group row">
+                        <div class="col-10 m-0 p-0">
+                            <textarea type="text" id="R.A.I.DS" class="form-control" name="RAIDS"
+                                id="exampleInputEmail1" aria-describedby="emailHelp"
+                                placeholder="R.A.I.DS">{{RAIDS.description}}</textarea>
+                        </div>
+                        <i class="col-2 m-auto text-danger fa fa-times" onclick="remove(this)"
+                            style="display: flex;justify-content: center;align-items: center;cursor: pointer;"></i>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div style="width:100% ;" class="row">
+                    <div class="w-100 form-group row">
+                        <textarea type="text" id="R.A.I.DS" class="form-control Raids col-12" name="RAIDS"
+                            id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="R.A.I.DS"></textarea>
+                        <p class="m-auto AddRaids" style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                            Add Another<i class="ml-1 text-danger fa fa-plus"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="padding-left: .9rem;min-width: 15rem;">
+                <div style="width: 100%;" class="estimateDiv row no-gutters text-center flex-nowrap">
+                    {% for e in userStory.Estimates.all %}
+                    <div class="col-6 form-group" id="nodejsreactjs">
+                        <label for="exampleInputEmail1">{{e.Platform.name}}</label><input type="number"
+                            id="{{e.Platform.id}}" class="form-control estimate" value="{{e.noOfHours}}" required=""
+                            name="estimate[]" placeholder="{{e.Platform.name}}" aria-describedby="emailHelp">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Add Group</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div class="form-group ">
+                            <label for="exampleInputEmail1">Description</label>
+                            <input type="text" name="US_Group" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Description">
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button data-dismiss="modal" aria-label="Close" type="button" class="btn btn-success">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- <div class="text-center">
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
+                    Modal Login Form</a>
+            </div> -->
+        <button type="submit" class="col-1 btn btn-success ">Submit</button>
+        <button type="button" class="col-2 btn btn-success" data-toggle="modal" data-target="#modalLoginForm">add to
+            group</button>
+    </div>
+</form>
+<div>
+    <form method="get">
+        {% csrf_token %}
+        <div class="modal fade" id="modalPlatformForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Add Platform</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div class="form-group ">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input type="text" name="Name" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="submit" value="submit" name="Platform" class="btn btn-success">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="text-center">
+                        <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
+                            Modal Login Form</a>
+                    </div> -->
+    </form>
+</div>
+{% endblock %}

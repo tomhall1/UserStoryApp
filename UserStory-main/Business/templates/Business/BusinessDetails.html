@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+<div>
+    <h1 class="m-auto">Details of {{form3.name}}</h1>
+</div>
+<form method="post">
+    {% csrf_token %}
+    <div class="row w-100">
+        <div class="col-4">
+            {{ form.as_p }}
+            <div class="form-group">
+                <label for="exampleInputEmail1" style="display: block;width: 100%;">BusinessIndustries</label>
+                <select id="example-getting-started1" name="businessIndustry" style="width: 100%;"
+                    class="form-control form-select platform" multiple="multiple">
+                    {% for p in businessIndustries %}
+                    {% if p.id in form3.industriesIds %}
+                    <option value="{{p.id}}" selected>{{p.name}},</option>
+                    {% else %}
+                    <option value="{{p.id}}">{{p.name}},</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="button" class="col-2 btn btn-success fa fa-plus" data-toggle="modal" data-target="#modalLoginForm">
+                </button>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1" style="display: block;width: 100%;">Internal_User</label>
+                <select id="example-getting-started" name="Internal_User" style="width: 100%;"
+                    class="form-control form-select platform" multiple="multiple">
+                    {% for p in internal_User %}
+                    {% if p.id in form3.internalUserIds %}
+                    <option class="projectOption" value="{{p.id}}" selected>{{p.username}}</option>
+                    {% else %}
+                    <option class="projectOption" value="{{p.id}}">{{p.username}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1" style="display: block;width: 100%;">Customer</label>
+                <select id="example-getting-started2" name="Customer" style="width: 100%;" class="form-control form-select platform"
+                    multiple="multiple">
+                    {% for p in customer %}
+                    {% if p.id in form3.customerIds %}
+                    <option class="projectOption" value="{{p.id}}" selected>{{p.username}}</option>
+                    {% else %}
+                    <option class="projectOption" value="{{p.id}}">{{p.username}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-3">
+            {{form2.as_p}}
+        </div>
+        <div class="col-3">
+            <strong>
+                UserStoryVersions
+            </strong>
+            <div>
+                {% for p in userStoryVersions %}
+                <div>
+                <a class="text-success " style="display: inline-block;" href="{% url 'userStoryVersionDetails' p.id %}"><strong class="d-block">{{p.name}}</strong></a>
+                </div>
+                {% endfor %}
+            </div>
+        </div> 
+        <div class="col-2">
+            <strong>
+                Projects
+            </strong>
+            <div >
+                {% for p in projects %}
+                <div>
+                <!-- <strong class="d-block">{{p.name}}</strong> -->
+                <a class="text-success" style="display: inline-block;" href="{% url 'projectDetails' p.id %}"><strong class="d-block">{{p.name}}</strong></a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success" value="submit">Update</button>
+    <button type="button" class="col-2 btn btn-success" data-toggle="modal" data-target="#modalLoginForm">Add Business
+        Industry
+    </button>
+</form>
+{% endblock %}

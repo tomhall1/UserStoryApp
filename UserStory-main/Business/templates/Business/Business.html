@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+<div>
+    <h1 class="m-auto">Business</h1>
+</div>
+<a href="{% url 'AddBusiness' %}" class="btn btn-success" aria-hidden="true">Create New Business
+</a>
+<div class="table-responsive p-0">
+    <table class="table align-items-center mb-0">
+        <thead>
+            <tr>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Business</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Industry</th>
+
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Contact
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Projects</th>
+                <th class="text-secondary opacity-7"></th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <form id="form" method="get">
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        {{filter.form.name}}</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        <input type="text" name="Industry" value="{{form.industry}}" class="form-control filter" id="exampleInputEmail1" aria-describedby="emailHelp"
+                            placeholder="Description">
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        <input type="text" name="user" value="{{form.user}}" class="form-control filter" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="Description"></th>
+        
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        <input type="text" name="Projects" value="{{form.projects}}" class="form-control filter" id="exampleInputEmail1" aria-describedby="emailHelp"
+                            placeholder="Description">
+                    </th>
+                    
+        
+                </form>
+            </tr>
+        </thead>
+        <tbody>
+            {% for business in businesses %}
+                <tr>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{business.name}}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{business.get_categories}}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{business.get_users}}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{business.project}}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <a href="{% url 'BusinessDetails' business.id %}" class="btn btn-success" aria-hidden="true">
+                        Details
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+
+    </table>
+</div>
+{% endblock %}

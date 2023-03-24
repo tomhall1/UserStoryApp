@@ -1,0 +1,372 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block project %}{{project}}{% endblock %}
+{% block content %}
+<div>
+    <h1 class="m-auto">Update UserStory Version</h1>
+</div>
+<form method="post" style="height: 100%;overflow:hidden;">
+    {% csrf_token %}
+    <div class="row" style="width:100% ;">
+        <div class="col-3">
+            <div class="form-group mb-0">
+                <label for="exampleInputEmail1">business</label>
+                <select class="form-control form-select business" name="business" style="display:block ;"
+                    aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    {% for p in business %}
+                    <option value="{{p.id}}">{{p.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Project</label>
+                <select class="form-control form-select project" name="project" style="display:block ;"
+                    aria-label="Default select example">
+                    <option value="0" selected>Open this select menu</option>
+                    {% for p in persona %}
+                    {% if p == userStoryVersion.Project %}
+                    <option class="projectOption" value="{{p.id}}" selected>{{p.name}}</option>
+                    {% else %}
+                    <option class="projectOption" value="{{p.id}}">{{p.name}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Version Name</label>
+                <input type="text" name="VersionName" value="{{userStoryVersion.name}}" class="form-control"
+                    id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Version Description</label>
+                <input type="text" name="VersionDescription" value="{{userStoryVersion.description}}" class="form-control"
+                    id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Description">
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                <label for="exampleInputEmail1">User Name</label>
+                <input type="text" name="VersionName" disabled value="{{userName}}" class="form-control"
+                    id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1" style="display: block;width: 100%;">PlatForm</label>
+                <select id="example-getting-started3" name="platforms" style="width: 100%;"
+                    class="form-control form-select platform" multiple="multiple">
+                    {% for p in platforms %}
+                    {% if p.id in platformIds %}
+                    <option value="{{p.id}}" selected>{{p.name}},</option>
+                    {% else %}
+                    <option value="{{p.id}}">{{p.name}},</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="button" class="col-2 btn btn-success fa fa-plus " data-toggle="modal" data-target="#modalLoginForm">
+                </button>
+                <!-- <select class="form-control form-select" required name="platform" style="display:block ;"
+                                                        aria-label="Default select example">
+                                                        
+                                                    </select> -->
+            </div>
+        </div>
+    </div>
+    <div>
+        {% for userStory in userStories %}
+        <div class="container testimonial-group parent" style="overflow-x: hidden;">
+            <div class="row no-gutters text-center flex-nowrap" id="UserStory">
+                <div class="dropdown">
+                    <button class="btn btn-transparent text-success p-0 show dropbtn fa fa-ellipsis-v" onclick="showmenu(event)"
+                        type="button" data-toggle="dropdown">
+                        <span class="caret"></span></button>
+                    <div class="dropdown-menu dropdown-conten" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(5px, 27px, 0px);" aria-labelledby="dropdownMenuButton" id="myDropdown">
+                        <button type="button" class="dropdown-item delUserStory" id="{{userStory.id}}" aria-hidden=" true">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group pl-5" style="height: 100%;min-width: 15rem;">
+                    <div style="width:100% ;" class="row">
+                        <div class="form-group col-10 mb-0">
+                            <label for="exampleInputEmail1">Persona</label>
+                        </div>
+                    </div>
+                    <div style="width: 100%;" class="row PersonDiv">
+                        {% for Persona in userStory.Persona.all %}
+                        <div class="form-group row">
+                            <div class="col-10 m-0 p-0">
+                                <textarea type="text" id="myInput" name="Persona" list="personList" style="display: inline;"
+                                    class="form-control Persona" id="myInput" aria-describedby="emailHelp"
+                                    placeholder="Persona">{{Persona.Name}}</textarea>
+                            </div>
+                            <i class="col-2 m-auto btn btn-success fa fa-minus" onclick="remove(this)"
+                                style="display: flex;justify-content: center;align-items: center;"></i>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div style="width:100% ;" class="row">
+                        <div class="form-group row">
+                            <div class="col-10 m-0 p-0">
+                                <textarea type="text" id="myInput" name="Persona" list="personList" style="display: inline;"
+                                    class="form-control Persona" id="myInput" aria-describedby="emailHelp" placeholder="Persona"></textarea>
+                            </div>
+                            <i class="col-2 m-auto btn btn-success fa fa-plus AddPersona"
+                                style="display: flex;justify-content: center;align-items: center;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-0" style="margin: 0;min-width: 10rem;">
+                    <label for="exampleInputEmail1">Epic</label>
+                    <textarea type="text" id="epicInput" list="encodings" name="Epic" class="form-control input" id="epicInput"
+                        aria-describedby="emailHelp" placeholder="Epic">{{userStory.Epic.versionName}}</textarea>
+                </div>
+                <div class="form-group" style="min-width: 10rem;">
+                    <label for="exampleInputEmail1">IWantTO</label>
+                    <textarea type="text" id="IWantTO" name="IWantTO" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="IWantTO">{{userStory.iWantTO}}</textarea>
+                </div>
+                <div class="form-group" style="min-width: 10rem;">
+                    <label for="exampleInputEmail1">SoThat</label>
+                    <textarea type="text" id="SoThat" name="SoThat" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="SoThat">{{userStory.soThat}}</textarea>
+                </div>
+                <div class="form-group" style="padding-left: 1.8rem;min-width: 15rem;">
+                    <div style="width:100% ;" class="row">
+                        <div class="form-group col-10 mb-0">
+                            <label for="exampleInputEmail1">Dev Tasks</label>
+                        </div>
+                    </div>
+                    <div style="width: 100%;" class="row DKDiv">
+                        {% for DevelopmentTask in userStory.DevelopmentTask.all %}
+                        <div class="form-group row">
+                            <div class="col-10 m-0 p-0">
+                                <textarea type="text" id="DevTasks" class="form-control Dev" name="Dev" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp" placeholder="Dev Tasks">{{DevelopmentTask.description}}</textarea>
+                            </div>
+                            <i class="col-2 m-auto btn btn-success fa fa-minus" onclick="remove(this)"
+                                style="display: flex;justify-content: center;align-items: center;"></i>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div style="width:100% ;" class="row">
+                        <div class="form-group row">
+                            <textarea type="text" id="DevTasks" class="form-control Dev col-10" name="Dev"
+                                id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Dev Tasks"></textarea>
+                            <i class="col-2 m-auto btn btn-success fa fa-plus AddDev"
+                                style="display: flex;justify-content: center;align-items: center;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="padding-left: 1.8rem;min-width: 15rem;">
+                    <div style="width:100% ;" class="row">
+                        <div class="form-group col-10 mb-0">
+                            <label for="exampleInputEmail1">R.A.I.DS</label>
+                        </div>
+                    </div>
+                    <div style="width: 100%;" class="row RAIDSDiv">
+                        {% for RAIDS in userStory.RAIDS.all %}
+                        <div class="form-group row">
+                            <div class="col-10 m-0 p-0">
+                                <textarea type="text" id="R.A.I.DS" class="form-control Raids" name="RAIDS" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp" placeholder="R.A.I.DS">{{RAIDS.description}}</textarea>
+                            </div>
+                            <i class="col-2 m-auto btn btn-success fa fa-minus" onclick="remove(this)"
+                            style="display: flex;justify-content: center;align-items: center;"></i>
+                    </div>
+                        {% endfor %}
+                    </div>
+                    <div style="width:100% ;" class="row">
+                        <div class="form-group row">
+                            <textarea type="text" id="R.A.I.DS" class="form-control Raids col-10" name="RAIDS"
+                                id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="R.A.I.DS"></textarea>
+                            <i class="col-2 m-auto btn btn-success fa fa-plus AddRaids"
+                                style="display: flex;justify-content: center;align-items: center;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="padding-left: .4rem;min-width: 10rem;">
+                    <div class="row">
+                        <label for="exampleInputEmail1">Priority</label>
+                        <input type="text" name="Priority" value="{{userStory.priority}}" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="Priority">
+                        <input type="checkbox" name="AddAnother" id="status" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group" style="padding-left: .9rem;min-width: 15rem;">
+                    <div style="width: 100%;" class="estimateDiv row no-gutters text-center flex-nowrap">
+                        {% for e in userStory.Estimates.all %}
+                        <div class="col-6 form-group" id="nodejsreactjs">
+                            <label for="exampleInputEmail1">{{e.Platform.name}}</label><input
+                                type="number" id="{{e.Platform.id}}" class="form-control estimate" value="{{e.noOfHours}}" onkeyup="UpdateTotalEstimates(event)" required="" name="estimate[]" placeholder="{{e.Platform.name}}"
+                                aria-describedby="emailHelp"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="container testimonial-group" style="overflow-x: hidden;">
+            <div class="row no-gutters text-center flex-nowrap" id="UserStory">
+                <div class="form-group pl-5" style="height: 100%;min-width: 15rem;">
+                    <div style="width:100% ;" class="row">
+                        <div class="form-group col-10 mb-0">
+                            <label for="exampleInputEmail1">Persona</label>
+                        </div>
+                    </div>
+                    <div class="PersonDiv">
+        
+                    </div>
+                    <div style="width:100% ;" class="row">
+                        <div class="form-group row">
+                            <div class="col-10 m-0 p-0">
+                                <textarea type="text" id="myInput" name="Persona" list="personList" style="display: inline;"
+                                    class="form-control Persona" id="myInput" aria-describedby="emailHelp"
+                                    placeholder="Persona"></textarea>
+                            </div>
+                            <i class="col-2 m-auto btn btn-success fa fa-plus AddPersona"
+                                style="display: flex;justify-content: center;align-items: center;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-0" style="margin: 0;min-width: 10rem;">
+                    <label for="exampleInputEmail1">Epic</label>
+                    <textarea type="text" id="epicInput" list="encodings" name="Epic" class="form-control input" id="epicInput"
+                        aria-describedby="emailHelp" placeholder="Epic"></textarea>
+                </div>
+                <div class="form-group" style="min-width: 10rem;">
+                    <label for="exampleInputEmail1">IWantTO</label>
+                    <textarea type="text" id="IWantTO" name="IWantTO" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="IWantTO"></textarea>
+                </div>
+                <div class="form-group" style="min-width: 10rem;">
+                    <label for="exampleInputEmail1">SoThat</label>
+                    <textarea type="text" id="SoThat" name="SoThat" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="SoThat"></textarea>
+                </div>
+                <div class="form-group" style="padding-left: 1.8rem;min-width: 15rem;">
+                    <div style="width:100% ;" class="row">
+                        <div class="form-group col-10 mb-0">
+                            <label for="exampleInputEmail1">Dev Tasks</label>
+                        </div>
+                    </div>
+                    <div class="DKDiv">
+        
+                    </div>
+                    <div style="width:100% ;" class="row">
+                        <div class="form-group row">
+                            <textarea type="text" id="DevTasks" class="form-control Dev col-10" name="Dev"
+                                id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Dev Tasks"></textarea>
+                            <i class="col-2 m-auto btn btn-success fa fa-plus AddDev"
+                                style="display: flex;justify-content: center;align-items: center;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="padding-left: 1.8rem;min-width: 15rem;">
+                    <div style="width:100% ;" class="row">
+                        <div class="form-group col-10 mb-0">
+                            <label for="exampleInputEmail1">R.A.I.DS</label>
+                        </div>
+                    </div>
+                    <div class="RAIDSDiv">
+        
+                    </div>
+                    <div style="width:100% ;" class="row">
+                        <div class="form-group row">
+                            <textarea type="text" id="R.A.I.DS" class="form-control Raids col-10" name="RAIDS"
+                                id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="R.A.I.DS"></textarea>
+                            <i class="col-2 m-auto btn btn-success fa fa-plus AddRaids"
+                                style="display: flex;justify-content: center;align-items: center;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="padding-left: .4rem;min-width: 10rem;">
+                    <div class="row">
+                        <label for="exampleInputEmail1">Priority</label>
+                        <input type="text" name="Priority" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="Priority">
+                        <input type="checkbox" name="AddAnother" id="status" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group" style="padding-left: .9rem;min-width: 15rem;">
+                    <div style="width: 100%;" class="estimateDiv row no-gutters text-center flex-nowrap">
+                        {% for p in platforms %}
+                        {% if p.id in platformIds %}
+                        <div class="col-6 form-group" id="nodejsreactjs">
+                            <label for="exampleInputEmail1">{{p.name}}</label><input type="number" id="{{p.id}}"
+                                class="form-control estimate"  required="" name="estimate[]" onkeyup="UpdateTotalEstimates(event)"
+                                placeholder="{{p.name}}" aria-describedby="emailHelp">
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Add Group</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div class="form-group ">
+                            <label for="exampleInputEmail1">Description</label>
+                            <input type="text" name="US_Group" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Description">
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button data-dismiss="modal" aria-label="Close" type="button"
+                            class="btn btn-success">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="text-center">
+            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
+                Modal Login Form</a>
+        </div> -->
+        <button type="button" class="col-2 btn btn-success AddUserStory">add another
+            UserStory</button>
+        <button type="submit" class="col-1 btn btn-success ">Update</button>
+    </div>
+    <div style="float: right;">
+        <div class="row TotalEstimates">
+            {% for e in totalEstimates %}
+            <div class="mr-5" id="t{{e.id}}">
+                <h6>{{e.name}}</h6>
+                <p id="t{{e.id}}" data="{{e.hours}}"><span>{{e.hours}}</span></p>
+            </div>
+            {% endfor %}
+        </div>
+    
+    </div>
+    <!-- <div class="form-group">
+        <label for="exampleInputEmail1">US_Group</label>
+        <input type="text" name="US_Group" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            placeholder="US_Group">
+    </div> -->
+    <!-- <div style="width:100% ;" class="row">
+        <div class="form-group col-10">
+            <label for="exampleInputEmail1">Estimates</label>
+            <input type="text" class="form-control Estimates" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Estimates">
+        </div>
+        <div class="col-2 text-center">
+            <button type="button" class="btn btn-success AddEstimates" style="margin-top:2rem ;">add another</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <textarea type="text" name="Estimates" class="form-control mt-2 h-25 EstimatesArea" cols="10"></textarea>
+    </div> -->
+</form>
+{% endblock %}

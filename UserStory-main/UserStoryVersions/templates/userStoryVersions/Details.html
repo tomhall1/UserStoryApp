@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+{% block title %}Details{% endblock %}
+{% block jsonSelectedPlatforms %}{{jsonSelectedPlatforms}}{% endblock %}
+{% block personaObjects %}{{personaObjects}}{% endblock %}
+{% block epicObjects %}{{epicObjects}}{% endblock %}
+{% block content %}
+{% csrf_token %}
+<div class="mb-5">
+    <h1 class="m-auto">User Story Version Details</h1>
+</div>
+<div class="mb-5">
+    <div class="row ">
+        <button type="submit" class="col-1 ml-5 mr-5 btn btn-success">Save</button>
+        
+        
+    </div>
+</div>
+<div class="row mb-5" style="width:100% ;">
+    <div class="col-3">
+        <div class="form-group mb-0">
+            <label for="exampleInputEmail1">business</label>
+            <select class="form-control form-select business" name="business" style="display:block ;"
+                aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                {% for p in business %}
+                <option value="{{p.id}}">{{p.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Project</label>
+            <select class="form-control form-select updateProject project" id="{{userStoriesVersion.id}}" name="project" style="display:block ;"
+                aria-label="Default select example">
+                <option value="0" selected>Open this select menu</option>
+                {% for p in persona %}
+                {% if p == userStoriesVersion.Project %}
+                <option class="projectOption" value="{{p.id}}" selected>{{p.name}}</option>
+                {% else %}
+                <option class="projectOption" value="{{p.id}}">{{p.name}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Version Name</label>
+            <input type="text" name="VersionName" id="{{userStoriesVersion.id}}" value="{{userStoriesVersion.name}}" class="form-control updateVersion"
+                id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Version Description</label>
+            <input type="text" name="VersionDescription" id="{{userStoriesVersion.id}}" value="{{userStoriesVersion.description}}" class="form-control updateVersion"
+                id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Description">
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="form-group">
+            <label for="exampleInputEmail1">User Name</label>
+            <input type="text" name="VersionName" disabled value="{{userStoriesVersion.User.username}}" class="form-control"
+                id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1" style="display: block;width: 100%;">PlatForm</label>
+            <select id="example-getting-started3" name="platforms" style="width: 100%;"
+                class="form-control form-select platform" multiple="multiple">
+                {% for p in platforms %}
+                {% if p.id in platformIds %}
+                <option value="{{p.id}}" selected>{{p.name}},</option>
+                {% else %}
+                <option value="{{p.id}}">{{p.name}},</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            <button type="button" class="col-2 btn btn-success fa fa-plus " data-toggle="modal"
+                data-target="#modalLoginForm">
+            </button>
+            <!-- <select class="form-control form-select" required name="platform" style="display:block ;"
+                                                        aria-label="Default select example">
+                                                        
+                                                    </select> -->
+        </div>
+    </div>
+</div>
+<h2>User Story</h2>
+<div class=" testimonial-group table-responsive mb-5" style="min-width: 100%;" id="UserStory">
+    
+    <table class="table align-items-center mb-0">
+        <thead>
+            <tr id="userStoryDetailsHeader"> 
+                <th></th> 
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Persona</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Epic
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">I Want TO</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">So That</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User Acceptance Criteria</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">RAIDS</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Priority</th>
+                {% for e in selectedPlatforms %}
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{e.name}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            {% for userStory in userStories %}
+            <tr class="ReadState userStoryDetailsBody" style="border-bottom:2px solid #dee2e6 ;" id="{{userStory.id}}">
+                <td class="align-middle text-center"><i id="{{userStory.id}}" class="col-2 m-auto text-danger fa fa-times" onclick="removeRow(this)"
+                    style="display: flex;justify-content: center;align-items: center;cursor: pointer;"></i></td>
+                <form id="form" method="post" name="filter" autocomplete="off">
+                    <td class="">
+                        <div class="row editmenu">
+                            <div class="form-group pl-5" style="height: 100%;min-width: 15rem;">
+                                <div style="width: 100%;" class="row PersonDiv">
+                                    {% for Persona in userStory.Persona.all %}
+                                    <div class="form-group row">
+                                            <textarea type="text" data-id="{{Persona.id}}" name="Persona" list="personList" style="display: inline;"
+                                                class="col-10 form-control updatePersona personaInput bg-gray h-4rem" id="myInput" aria-describedby="emailHelp"
+                                                placeholder="Persona">{{Persona.Name}}</textarea>
+                                                <i class="col-2 m-auto text-danger fa fa-times" onclick="remove(this)"
+                                                    style="display: flex;justify-content: center;align-items: center;cursor: pointer;"> </i>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <p class="m-auto AddPersona details" style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                                    Add Another<i class="ml-1 text-danger fa fa-plus AddPersona"></i></p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="form-group m-0" style="margin: 0;min-width: 15rem;">
+                            <textarea type="text"  list="encodings" name="Epic"
+                                class="form-control input epicInputDetails bg-gray updateUserStory h-4rem" data-name="epic" id="epicInput" aria-describedby="emailHelp"
+                                placeholder="Epic">{{userStory.Epic.versionName}}</textarea>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="form-group" style="min-width: 15rem;">
+                            <textarea type="text" id="IWantTO" name="IWantTO" data-name="iWantTo" class="form-control updateUserStory bg-gray h-4rem"
+                                id="exampleInputEmail1" aria-describedby="emailHelp"
+                                placeholder="IWantTO">{{userStory.iWantTO}}</textarea>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="form-group" style="min-width: 15rem;">
+                            <textarea type="text" id="SoThat" name="SoThat" data-name="soThat" class="form-control updateUserStory bg-gray h-4rem"
+                                id="exampleInputEmail1" aria-describedby="emailHelp"
+                                placeholder="SoThat">{{userStory.soThat}}</textarea>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="form-group pl-5 twiceWidth" style="height: 100%;min-width: 15rem;">
+                            <div style="width: 100%;" class="row DKDiv twiceWidth">
+                                {% for DevelopmentTask in userStory.DevelopmentTask.all %}
+                                <div class="form-group row twiceWidth">
+                                        <textarea type="text" id="DevTasks" data-id="{{DevelopmentTask.id}}" class="col-10 form-control updateDevTask bg-gray h-4rem" name="Dev"
+                                            id="exampleInputEmail1" aria-describedby="emailHelp"
+                                            placeholder="User Acceptance Criteria">{{DevelopmentTask.description}}</textarea>
+                                        <i class="col-2 m-auto text-danger fa fa-times" onclick="remove(this)"
+                                            style="display: flex;justify-content: center;align-items: center;cursor: pointer;"> </i>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <p class="m-auto AddDev details" style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                                Add Another<i class="ml-1 text-danger fa fa-plus"></i></p>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="form-group pl-5 twiceWidth" style="height: 100%;min-width: 15rem;">
+                            <div style="width: 100%;" class="row RAIDSDiv twiceWidth">
+                                {% for RAIDS in userStory.RAIDS.all %}
+                                <div class="form-group row twiceWidth">
+                                        <textarea type="text" id="R.A.I.DS" data-id="{{RAIDS.id}}" class="col-10 form-control updateRaids bg-gray h-4rem" name="RAIDS"
+                                            id="exampleInputEmail1" aria-describedby="emailHelp"
+                                            placeholder="R.A.I.DS">{{RAIDS.description}}</textarea>
+                                        <i class="col-2 m-auto text-danger fa fa-times" onclick="remove(this)"
+                                            style="display: flex;justify-content: center;align-items: center;cursor: pointer;"> </i>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <p class="m-auto AddRaids details" style="display: flex;justify-content: center;align-items: center;cursor: pointer;">
+                                Add Another<i class="ml-1 text-danger fa fa-plus"></i></p>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="form-group" style="min-width: 15rem;">
+                            <input type="text" value="{{userStory.priority}}" data-name="Priority"  name="Priority"  class="form-control  bg-gray" onchange="updateUserStory(event, this)" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                placeholder="Priority">
+                        </div>
+                    </td>
+                    {% for p in selectedPlatforms %}
+                    {% if p.id in userStory.platforms %}
+                    {% for e in userStory.Estimates.all %}
+                    {% if e.Platform.id == p.id %}
+                    <td class="">
+                        <div class=" form-group row lessWidth text-center" style="height: 100%;">
+                            <input type="number" id="{{e.Platform.id}}" data-id="{{e.id}}" class="form-control estimate updateEstimate bg-gray m-auto col-8"
+                                value="{{e.noOfHours}}" required="" name="estimate[]" placeholder="{{e.Platform.name}}"
+                                aria-describedby="emailHelp">
+                        </div>
+                    </td>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <td class="">
+                        <div class=" form-group row lessWidth text-center" style="height: 100%;">
+                            <input type="number" id="{{p.id}}" onchange="addEstimate(event,this)" class="form-control bg-gray estimate m-auto col-8" required=""
+                                name="estimate[]" aria-describedby="emailHelp">
+                        </div>
+                    </td>
+                    {% endif %}
+                    {% endfor %}
+                </form>
+            </tr>
+            
+            {% endfor %}
+            
+        </tbody>
+
+
+    </table>
+    <div class="p-0 d-none" style="max-height: 15rem !important;width: 100%;overflow-y: auto;overflow-x: hidden;">
+        <div class="spinner-border d-none" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <table class="table align-items-center mb-0">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Persona</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Epic
+                    </th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">iWantTO</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">soThat</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DevTask</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">RAIDS</th>
+                    <th class="text-secondary opacity-7"></th>
+                </tr>
+            </thead>
+            <tbody class="relatedUserStory">
+    
+            </tbody>
+    
+    
+        </table>
+    </div>
+</div>
+<div class="row" style="min-height: 15rem;">
+<div class="col-4">
+<button type="button" id="addUserStory" data-id="{{userStoriesVersion.id}}" class="col-4 ml-5 mr-5 btn btn-success ">Add User Story</button>
+</div>
+<div class="row col-8">
+    <div class="form-group col-3">
+        <label for="exampleInputEmail1" style="display: block;width: 100%;">Priority</label>
+        <select id="example-getting-started5" name="platforms" style="width: 100%;"
+            class="form-control form-select " onchange="selectPriority(event, this)" multiple="multiple">
+            {% for e in priority %}
+            <option value="{{e}}">{{e}}</option>
+            {% endfor %}
+        </select>
+        <!-- <select class="form-control form-select" required name="platform" style="display:block ;"
+                                                            aria-label="Default select example">
+                                                            
+                                                        </select> -->
+    </div>
+<table class="col-5 table align-items-center mb-5">
+    <thead>
+        
+        <tr>
+            <th>
+                Estimate
+            </th>
+            <th>
+                Total
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody class="sumEstimatesTable">
+        {% for p in selectedPlatforms %}
+        <tr>
+        <td>
+            {{p.name}}
+        </td>
+        <td>
+            {{p.estimate}}
+        </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+
+<div class="table-responsive p-0 d-none">
+    <div class="spinner-border d-none" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <table class="table align-items-center mb-0">
+        <thead>
+            <tr>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Persona</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Epic
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">iWantTO</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">soThat</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DevTask</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">RAIDS</th>
+                <th class="text-secondary opacity-7"></th>
+            </tr>
+        </thead>
+        <tbody class="relatedUserStory">
+
+        </tbody>
+
+
+    </table>
+</div>
+<form method="post"></form>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+<div>
+    <h1 class="m-auto">Detail view of Project</h1>
+</div>
+<div class="row">
+<form class="col-3" method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" class="btn btn-success" value="Update"></p>
+</form>
+<div class="col-9 table-responsive p-0">
+    <table class="table align-items-center mb-0">
+        <thead>
+            <tr>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">name</th>
+
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">description
+                </th>
+                <th class="text-secondary opacity-7"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in userStoryVersions %}
+            <tr>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.name}}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{user.description}}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <a href="{% url 'userStoryVersionDetails' user.id %}" class="btn btn-success" aria-hidden="true">
+                        Details
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+
+    </table>
+</div>
+</div>
+{% endblock %}
